@@ -64,7 +64,7 @@ const Config = () => {
                         floracionFecha: fechaInicioFloracion,
                         simulacionFecha: fechaInicioSimulacion,
                         ha: hectareasCultivo,
-                        nombreAgroquimico: agroquimicoNombre
+                        agroq: agroquimicoElegido
 
                     }
                 }); //pasar datos al componente simulation
@@ -77,9 +77,9 @@ const Config = () => {
         }
     };
 
-    const agroquimicoNombre = agroquimicos.find(
+    const agroquimicoElegido = agroquimicos.find(
         a => a.id === Number(agroquimicoSeleccionado)
-    )?.producto || "";
+    ) || "";
 
     const handleChange = (e) => {
         setAgroquimicoSeleccionado(e.target.value);
@@ -135,7 +135,7 @@ const Config = () => {
 
                             {agroquimicoSeleccionado && (
                                 <p className='mt-1 text-gray-700'>
-                                    Agroquímico seleccionado: <strong>{agroquimicoNombre}</strong>
+                                    Agroquímico seleccionado: <strong>{agroquimicoElegido.producto}</strong>
                                 </p>
                             )}
                             <p className="text-red-500">{errors.id_tratamiento?.message}</p>
@@ -204,7 +204,7 @@ const Config = () => {
 
                         <div className='mt-6'>
                             <input type="submit" value="Ejecutar Simulación" placeholder='Ejecutar Simulación'
-                                className='p-2 border-1 border-gray-400 rounded w-full bg-blue-600 text-white font-bold pt-3 pb-3' />
+                                className='p-2 border-1 border-gray-400 rounded w-full bg-blue-600 text-white font-bold pt-3 pb-3 hover:bg-blue-700' />
                         </div>
                     </div>
                 </form>

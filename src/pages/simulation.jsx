@@ -2,6 +2,7 @@ import Navbar from "../components/navbar";
 import { Droplets, Sun, Trees, FlaskConical, Leaf, Calendar, SquareSquare, CalendarDays } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useLocation } from 'react-router-dom';
+import InfoAgroquimico from "../components/infoAgroquimico";
 
 
 const Simulation = () => {
@@ -11,7 +12,7 @@ const Simulation = () => {
     const floracionFecha = location.state?.floracionFecha;
     const simulacionFecha = location.state?.simulacionFecha;
     const ha = location.state?.ha;
-    const nombreAgroquimico = location.state?.nombreAgroquimico;
+    const agroquimico = location.state?.agroq;
 
     const datosFiltrados = resultado.map(item => ({
         fecha: new Date(item.fecha).toLocaleDateString('es-AR'),
@@ -40,7 +41,7 @@ const Simulation = () => {
                                 <FlaskConical className="h-4 w-4 text-gray-500" />
                                 <p className='text-gray-500 font-sans'>Agroquímico</p>
                             </div>
-                            <p className="text-base font-bold text-black">{nombreAgroquimico}</p>
+                            <p className="text-base font-bold text-black">{agroquimico.producto}</p>
                         </div>
                         <div className="mt-4 w-1/4">
                             <div className="flex items-center gap-2 mb-2">
@@ -116,6 +117,7 @@ const Simulation = () => {
                         </BarChart>
                     </ResponsiveContainer>
                 </div>
+                <InfoAgroquimico agroquimico={agroquimico}/>
             </div>
         </>
     )

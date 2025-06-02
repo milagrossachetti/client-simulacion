@@ -23,7 +23,7 @@ const Navbar = ({ mostrarBotonVolver = false, titulo, subtitulo }) => {
         {mostrarBotonVolver && (
           <button
             onClick={handleVolver}
-            className="flex items-center border rounded border-gray-300 pl-4 pr-4 pt-2 pb-2 self-center mr-30"
+            className="flex items-center border rounded border-gray-300 pl-4 pr-4 pt-2 pb-2 self-center mr-30 hover:bg-gray-300"
           >
             <ArrowLeft className="h-5 w-5 mr-1" />
             Volver

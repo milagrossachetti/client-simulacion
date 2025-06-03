@@ -1,4 +1,4 @@
-import { ChartColumn, Leaf, FlaskConical, Calendar, SquareSquare, Info } from 'lucide-react';
+import { ChartColumn, Leaf, FlaskConical, Calendar, SquareSquare, Info, TriangleAlert } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useForm } from "react-hook-form"
@@ -11,6 +11,12 @@ const Config = () => {
     const [agroquimicos, setAgroquimicos] = useState([]);
     const [error, setError] = useState("")
     const navigate = useNavigate();
+    const recomendaciones = [
+        "Grado promedio ≥ 2.0: Aplicación inmediata",
+        "Grado promedio ≥ 1.5: Aplicación preventiva",
+        "Considera el período de carencia antes de floración",
+        "Respeta el tiempo mínimo entre aplicaciones"
+    ];
     const { register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             id_agroquimico: "",
@@ -101,7 +107,7 @@ const Config = () => {
         <>
 
             <div className='flex flex-row mt-8'>
-                <form onSubmit={handleSubmit(onSubmit)} className='w-[60%] bg-white mr-5 ml-30 p-8 rounded-lg shadow-md'>
+                <form onSubmit={handleSubmit(onSubmit)} className='w-[90%] bg-white mr-5 ml-30 p-8 rounded-lg shadow-md'>
                     <div>
                         <div className='flex flex-row gap-3'>
                             <div className='bg-blue-100 p-2 h-10 mt-2 rounded-lg'>
@@ -121,7 +127,7 @@ const Config = () => {
                             <select
                                 {...register("id_tratamiento", { required: "Debe seleccionar un tratamiento" })}
                                 id="dropdown"
-                                className='p-3 border-1 border-gray-300 rounded w-full'
+                                className='p-3 border-1 border-gray-300 rounded w-full '
                                 value={agroquimicoSeleccionado}
                                 onChange={handleChange}
                             >
@@ -208,16 +214,35 @@ const Config = () => {
                         </div>
                     </div>
                 </form>
-                <div className="bg-white mr-30 p-5 rounded-lg shadow-md h-auto self-start">
-                    <div className="flex items-center gap-2 mb-2 mb-6 mt-2">
-                        <Info className="h-5 w-5 text-black" />
-                        <p className='text-lg font-medium'>Guía Rápida</p>
+                <div>
+                    <div className="bg-white mr-30 p-5 rounded-lg shadow-md h-auto self-start">
+                        <div className="flex items-center gap-2 mb-2 mt-2">
+                            <Info className="h-5 w-5 text-black" />
+                            <p className='text-base font-medium'>Guía Rápida</p>
+                        </div>
+                        <div>
+                            <p className='mb-2 text-sm'><strong>1.</strong> Seleccione el agroquímico según su estrategia de control</p>
+                            <p className='mb-2 text-sm'><strong>2.</strong> Elija la fecha de inicio de simulación</p>
+                            <p className='mb-2 text-sm'><strong>3.</strong> Indique cuándo inicia la floración en su cultivo</p>
+                            <p className='mb-2 text-sm'><strong>4.</strong> Especifique el área total a simular</p>
+                            <p className='mb-2 text-sm'><strong>5.</strong> El sistema calculará automáticamente:</p>
+                            <p className='mb-2 ml-4 text-sm'><strong>-</strong> Grado de ataque inicial por lupeo</p>
+                            <p className='mb-2 ml-4 text-sm'><strong>-</strong> Propagación diaria considerando factores climáticos, la eclosión de huevos y el grado inicial</p>
+                            <p className='mb-2 ml-4 text-sm'><strong>-</strong> Día óptimo de aplicación de tratamientos fitosanitarios</p>
+                        </div>
                     </div>
-                    <div>
-                        <p className='mb-2'><strong>1.</strong> Seleccione el agroquímico según su estrategia de control</p>
-                        <p className='mb-2'><strong>2.</strong> Indique cuándo inicia la floración en su cultivo</p>
-                        <p className='mb-2'><strong>3.</strong> Elija la fecha de inicio de simulación</p>
-                        <p className='mb-2'><strong>4.</strong> Especifique el área total a simular</p>
+                    <div className="bg-orange-100 mr-30 p-5 rounded-lg shadow-md h-auto self-start mt-4">
+                        <div className="flex items-center gap-2 mb-2 mt-2">
+                            <TriangleAlert className="h-5 w-5 text-orange-600" />
+                            <p className='text-base font-medium text-orange-800'>Criterios de aplicación automática</p>
+                        </div>
+                        <div>
+                            <ul>
+                                {recomendaciones.map((item, index) => (
+                                    <li key={index} className='mb-2 text-sm text-orange-800'>{item}</li>
+                                ))}
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

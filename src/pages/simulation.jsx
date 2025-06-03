@@ -1,8 +1,9 @@
 import Navbar from "../components/navbar";
 import { Droplets, Sun, Trees, FlaskConical, Leaf, Calendar, SquareSquare, CalendarDays } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { useLocation } from 'react-router-dom';
 import InfoAgroquimico from "../components/infoAgroquimico";
+import CronogramaAplicaciones from "../components/cronogramaAplicaciones";
 
 
 const Simulation = () => {
@@ -16,7 +17,8 @@ const Simulation = () => {
 
     const datosFiltrados = resultado.map(item => ({
         fecha: new Date(item.fecha).toLocaleDateString('es-AR'),
-        grado: item.grado_ataque
+        grado: item.grado_ataque,
+        aplicoTratamiento: item.aplicacion_tratamiento_fitosanitario
     }));
 
     const diasCalidos = resultado.reduce((contador, item) => {
@@ -27,14 +29,15 @@ const Simulation = () => {
         return item.dia_humedo ? contador + 1 : contador;
     }, 0);
 
+
     const diasSimulados = resultado.length;
 
     return (
         <>
             <Navbar mostrarBotonVolver={true} titulo={"Resultados de simulación"} subtitulo={"Análisis del comportamiento de cochinilla del olivo"} />
-            <div className="ml-30 mr-30">
+            <div className="ml-30 mr-30 mt-8">
                 <div className="bg-white border rounded border-gray-100 mt-4 p-4 shadow-md">
-                    <p className="font-semibold text-black-900">Parámetros de Simulación</p>
+                    <p className="font-semibold text-lg text-black-900">Parámetros de Simulación</p>
                     <div className="flex flex-row gap-4 ">
                         <div className="mt-4 w-1/4">
                             <div className="flex items-center gap-2 mb-2">
@@ -113,11 +116,20 @@ const Simulation = () => {
                             <XAxis dataKey="fecha" angle={0} textAnchor="end" height={60} />
                             <YAxis domain={[0, 4]} />
                             <Tooltip />
-                            <Bar dataKey="grado" fill="#2563eb" radius={[4, 4, 0, 0]} barSize={10} />
+                            <Bar dataKey="grado" radius={[4, 4, 0, 0]} barSize={10}>
+                                {datosFiltrados.map((entry, index) => (
+                                    <Cell
+                                        key={`cell-${index}`}
+                                        fill={entry.aplicoTratamiento ? '#16a34a' : '#2563eb'}
+                                    />
+                                ))}
+                            </Bar>
                         </BarChart>
                     </ResponsiveContainer>
+
                 </div>
-                <InfoAgroquimico agroquimico={agroquimico}/>
+                <InfoAgroquimico agroquimico={agroquimico} />
+                <CronogramaAplicaciones datos={resultado}/>
             </div>
         </>
     )

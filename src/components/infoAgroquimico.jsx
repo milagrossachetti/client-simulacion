@@ -22,7 +22,7 @@ const InfoAgroquimico = ({ agroquimico }) => {
         <>
             <div className="bg-white border rounded border-gray-100 mt-4 p-4 shadow-md">
                 <div className="flex flex-col ">
-                    <p className="font-semibold text-black-900">Información sobre el agroquímico utilizado</p>
+                    <p className="font-semibold text-lg text-black-900">Información sobre el agroquímico utilizado</p>
                     <p className='font-extralight text-md'>{agroquimico.producto}</p>
                 </div>
                 <div className="flex flex-row gap-4 mt-4 mb-4">

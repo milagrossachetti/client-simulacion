@@ -6,9 +6,6 @@ const CronogramaAplicaciones = ({ datos }) => {
         return item.aplicacion_tratamiento_fitosanitario ? contador + 1 : contador;
     }, 0);
 
-    //obteniendo la cantidad de aplicaciones puedo crear tantas tarjetas como desee. ahora debo identificar la fecha de cada día de aplicación
-
-
     const infoAplicaciones = datos
         .filter(dato => dato.aplicacion_tratamiento_fitosanitario)
         .map(dato => ({

@@ -5,18 +5,6 @@ import { useLocation } from 'react-router-dom';
 
 
 const InfoAgroquimico = ({ agroquimico }) => {
-    /**
-     * 
-    {
-    "id": 0,
-    "producto": "string",
-    "disminucion_grado_ataque": 0,
-    "media_inmunidad": 0,
-    "desviacion_inmunidad": 0,
-    "periodo_carencia": 0,
-    "tiempo_entre_aplicaciones": 0
-    }
-     */
 
     return (
         <>

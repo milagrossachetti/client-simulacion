@@ -1,7 +1,7 @@
-import { ChartColumn, Leaf, FlaskConical, Calendar, SquareSquare, Info, TriangleAlert } from 'lucide-react';
+import { ChartColumn, Flower2, FlaskConical, Calendar, SquareSquare, Info, TriangleAlert } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { useForm } from "react-hook-form"
+import { useForm } from "react-hook-form";
 
 const Config = () => {
     const [agroquimicoSeleccionado, setAgroquimicoSeleccionado] = useState("");
@@ -165,7 +165,7 @@ const Config = () => {
 
                         <div className='mt-6'>
                             <div className="flex items-center gap-2 mb-2">
-                                <Leaf className="h-4 w-4 text-black" />
+                                <Flower2 className="h-4 w-4 text-black" />
                                 <p className='text-md font-medium'>Inicio de la Floración</p>
                             </div>
                             <input

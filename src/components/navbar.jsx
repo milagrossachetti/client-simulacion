@@ -1,4 +1,4 @@
-import { Leaf, ArrowLeft } from 'lucide-react'
+import { Bug, ArrowLeft } from 'lucide-react'
 import { useNavigate } from 'react-router';
 import '../index.css'
 
@@ -13,7 +13,7 @@ const Navbar = ({ mostrarBotonVolver = false, titulo, subtitulo }) => {
       <div className='flex flex-row justify-between w-full pt-5 pb-5 pl-30 gap-4 bg-white border-b-2 border-gray-200'>
         <div className='flex flex-row gap-4'>
           <div className="p-2 h-10 mt-2 bg-emerald-100 rounded-lg">
-            <Leaf className="h-6 w-6 text-emerald-600" />
+            <Bug className="h-6 w-6 text-emerald-600" />
           </div>
           <div className='flex flex-col justify-center'>
             <h1 className='text-2xl font-bold'>{titulo}</h1>

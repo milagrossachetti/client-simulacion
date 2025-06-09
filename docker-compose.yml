@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  backend:
+    image: tomiimonn/backend-sim-tfi
+    container_name: backend
+    ports:
+      - "8080:80"       # backend estará disponible en localhost:8080
+    networks:
+      - sim-network
+
+  frontend:
+    image: milagrosachetti/simulacion:front
+    container_name: frontend
+    ports:
+      - "5173:80"       # frontend estará disponible en localhost:5173
+    depends_on:
+      - backend
+    networks:
+      - sim-network
+
+networks:
+  sim-network:
+    driver: bridge

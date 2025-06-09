@@ -10,6 +10,8 @@ const Config = () => {
     const [hectareasCultivo, setHectareasCultivo] = useState("")
     const [agroquimicos, setAgroquimicos] = useState([]);
     const [error, setError] = useState("")
+    const [loading, setLoading] = useState(false);
+    const [resultado, setResultado] = useState(null);
     const navigate = useNavigate();
     const recomendaciones = [
         "Grado promedio ≥ 2.0: Aplicación inmediata",
@@ -28,7 +30,7 @@ const Config = () => {
 
     const obtenerAgroquimicos = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/tratamientos-sanitarios`, {
+            const response = await fetch(`https://sim-tfi-backend.onrender.com/tratamientos-sanitarios`, {
                 method: 'GET'
             });
             if (response.ok) {
@@ -47,6 +49,8 @@ const Config = () => {
     }, []);
 
     const onSubmit = async (data) => {
+        setLoading(true)
+        setResultado(null)
         const jsonParaEnviar = {
             id_tratamiento: parseInt(data.id_tratamiento),
             hectareas: parseInt(data.hectareas),
@@ -54,7 +58,7 @@ const Config = () => {
             fecha_floracion: data.inicioFloracion
         };
         try {
-            const response = await fetch("http://localhost:8080/simular", {
+            const response = await fetch("https://sim-tfi-backend.onrender.com/simular", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -80,6 +84,8 @@ const Config = () => {
             }
         } catch (error) {
             setError("Error en la comunicación con el backend: " + error.message);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -190,8 +196,15 @@ const Config = () => {
                             <input
                                 {...register("hectareas", {
                                     required: 'Este campo es obligatorio',
-                                    validate: value => parseInt(value) > 0 || 'Debe ser un número mayor a 0'
+                                    validate: value => {
+                                        const num = parseInt(value);
+                                        if (isNaN(num)) return 'Debe ser un número válido';
+                                        if (num <= 0) return 'Debe ser un número mayor a 0';
+                                        if (num > 1000) return 'Debe ser un número menor o igual a 1000';
+                                        return true;
+                                    }
                                 })}
+
                                 type="number"
                                 className='p-3 border-1 border-gray-300 rounded w-full'
                                 placeholder="Ingrese la cantidad de hectareas"
@@ -209,9 +222,21 @@ const Config = () => {
                         )}
 
                         <div className='mt-6'>
-                            <input type="submit" value="Ejecutar Simulación" placeholder='Ejecutar Simulación'
-                                className='p-2 border-1 border-gray-400 rounded w-full bg-blue-600 text-white font-bold pt-3 pb-3 hover:bg-blue-700' />
+                            <input
+                                type="submit"
+                                value={loading ? "Realizando simulación..." : "Ejecutar Simulación"}
+                                disabled={loading}
+                                className={`p-2 rounded w-full font-bold pt-3 pb-3 transition-all
+      ${loading ? "bg-blue-500 cursor-not-allowed text-white" : "bg-blue-600 hover:bg-blue-700 text-white"}`}
+                            />
+                            {loading && (
+                                <div className="flex items-center justify-center mt-2">
+                                    <div className="spinner mr-2" />
+                                    <span className="text-sm text-gray-600">Simulando, por favor espere...</span>
+                                </div>
+                            )}
                         </div>
+
                     </div>
                 </form>
                 <div>
@@ -224,7 +249,7 @@ const Config = () => {
                             <p className='mb-2 text-sm'><strong>1.</strong> Seleccione el agroquímico según su estrategia de control</p>
                             <p className='mb-2 text-sm'><strong>2.</strong> Elija la fecha de inicio de simulación</p>
                             <p className='mb-2 text-sm'><strong>3.</strong> Indique cuándo inicia la floración en su cultivo</p>
-                            <p className='mb-2 text-sm'><strong>4.</strong> Especifique el área total a simular</p>
+                            <p className='mb-2 text-sm'><strong>4.</strong> Especifique el área total a simular <strong className='text-red-600'>(hasta 1000 ha)</strong></p>
                             <p className='mb-2 text-sm'><strong>5.</strong> El sistema calculará automáticamente:</p>
                             <p className='mb-2 ml-4 text-sm'><strong>-</strong> Grado de ataque inicial por lupeo</p>
                             <p className='mb-2 ml-4 text-sm'><strong>-</strong> Propagación diaria considerando factores climáticos, la eclosión de huevos y el grado inicial</p>
